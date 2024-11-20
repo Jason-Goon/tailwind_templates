@@ -1,0 +1,30 @@
+<header class="bg-background py-4">
+    <nav class="container mx-auto px-4 flex justify-between items-center">
+        <a href="index.html" class="text-3xl font-bold text-accent">[Site Name]</a> <!-- Site Name Placeholder -->
+
+        <!-- desktop -->
+        <ul class="hidden md:flex space-x-6 text-lg">
+            <li><a href="index.html" class="hover:text-accent">Home</a></li>
+            <li><a href="convert.html" class="hover:text-accent">Convert Images</a></li>
+            <li><a href="articles.html" class="hover:text-accent">Articles</a></li>
+            <li><a href="about.html" class="hover:text-accent">About</a></li>
+            <li><a href="contact.html" class="hover:text-accent">Contact</a></li> <!-- Example for expansion -->
+        </ul>
+
+        <!-- button -->
+        <button class="md:hidden text-accent focus:outline-none" onclick="toggleMenu()">
+            <i class="fas fa-bars text-2xl"></i>
+        </button>
+    </nav>
+
+    <!-- mobile menu-->
+    <div id="mobile-menu" class="hidden bg-background text-foreground py-4">
+        <ul class="flex flex-col space-y-4 px-4">
+            <li><a href="index.html" class="hover:text-accent">Home</a></li>
+            <li><a href="convert.html" class="hover:text-accent">Convert Images</a></li>
+            <li><a href="articles.html" class="hover:text-accent">Articles</a></li>
+            <li><a href="about.html" class="hover:text-accent">About</a></li>
+            <li><a href="contact.html" class="hover:text-accent">Contact</a></li> <!-- Example for expansion -->
+        </ul>
+    </div>
+</header>

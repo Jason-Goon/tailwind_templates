@@ -1,0 +1,44 @@
+<!-- file upload -->
+<div id="drag-area" class="drag-area">
+    <i class="fas fa-cloud-upload-alt fa-2x"></i>
+    <p>Drop your image files here or click to select</p>
+    <input type="file" id="fileInput" multiple accept="image/*" class="hidden">
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const dragArea = document.getElementById('drag-area');
+        const fileInput = document.getElementById('fileInput');
+        const fileList = document.getElementById('file-list');
+        let files = [];
+
+        dragArea.addEventListener('click', () => fileInput.click());
+        dragArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragArea.classList.add('dragging');
+        });
+        dragArea.addEventListener('dragleave', () => dragArea.classList.remove('dragging'));
+        dragArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragArea.classList.remove('dragging');
+            files = e.dataTransfer.files;
+            updateFileList();
+        });
+
+        fileInput.addEventListener('change', () => {
+            files = fileInput.files;
+            updateFileList();
+        });
+
+        function updateFileList() {
+            if (fileList) {
+                fileList.innerHTML = '';
+                Array.from(files).forEach(file => {
+                    const li = document.createElement('li');
+                    li.textContent = file.name.length > 10 ? file.name.slice(0, 10) + '...' : file.name;  // Truncate file name
+                    fileList.appendChild(li);
+                });
+            }
+        }
+    });
+</script>

@@ -1,0 +1,58 @@
+<!-- chat element -->
+<div id="chat-container" class="container mx-auto px-4 py-8 max-w-4xl h-96 border border-outlineWhite rounded-lg bg-background flex flex-col mt-16 mb-16">
+    <div id="messages" class="flex-grow overflow-y-auto space-y-4">
+        <!-- message dyn add -->
+    </div>
+    <div class="flex mt-4">
+        <input id="chat-input" type="text" class="w-3/4 p-4 bg-background text-foreground border border-outlineWhite rounded-l-lg focus:outline-none" placeholder="Type your message...">
+        <button id="send-button" class="w-1/4 p-4 bg-highlight text-background rounded-r-lg hover:bg-secondary focus:outline-none">Send</button>
+    </div>
+</div>
+
+<!-- chat script -->
+<script type="module">
+    const chatContainer = document.getElementById('messages');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+
+    sendButton.addEventListener('click', () => {
+        const message = chatInput.value;
+        if (message.trim()) {
+           
+            const userMessage = document.createElement('div');
+            userMessage.className = 'max-w-xs bg-background text-foreground border border-outlineWhite p-4 rounded-lg self-end mb-4 ml-auto';
+            userMessage.textContent = message;
+            chatContainer.appendChild(userMessage);
+            chatInput.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'max-w-xs bg-background text-foreground border border-outlineWhite p-4 rounded-lg self-start mb-4 mr-auto';
+            typingIndicator.textContent = '...';
+            chatContainer.appendChild(typingIndicator);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            fetch('https://please-daddy-endpoint.workers.dev/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ message })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const aiMessageContent = data.choices[0].message.content;
+                typingIndicator.remove();
+
+                const botMessage = document.createElement('div');
+                botMessage.className = 'max-w-xs bg-background text-foreground border border-outlineWhite p-4 rounded-lg self-start mb-4 mr-auto';
+                botMessage.textContent = aiMessageContent;
+                chatContainer.appendChild(botMessage);
+
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                typingIndicator.remove();
+            });
+        }
+    });
+</script>
